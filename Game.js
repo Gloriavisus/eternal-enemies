@@ -10,14 +10,14 @@ function Game(canvas) {
 }
 
 Game.prototype.startGame = function() {
-  // inicializar player y enenmies
-  this.player = new Player(this.canvas);
+  // inicializar jugador y pelota
+  this.player = new this.player(this.canvas);
   var loop = () => {
 
     if(Math.random() > 0.97) {
       var randomY = Math.random() * this.canvas.height - 10;
-      var newEnemy = new Enemy(this.canvas, randomY);
-      this.enemies.push(newEnemy);
+      var newPelota = new EnemÇPelotay(this.canvas, randomY);
+      this.pelota.push(newPelota);
     }
 
     this.update();
@@ -35,8 +35,8 @@ Game.prototype.startGame = function() {
 
 Game.prototype.update = function() {
   this.player.move();
-  this.enemies.forEach(function(enemy) {
-    enemy.move();
+  this.pelota.forEach(function(pelota) {
+    pelota.move();
   })
 }
 
@@ -46,20 +46,20 @@ Game.prototype.clear = function() {
 
 Game.prototype.draw = function() {
   this.player.draw();
-  this.enemies.forEach(function(enemy) {
-    enemy.draw();
+  this.pelota.forEach(function(pelota) {
+    pelota.draw();
   })
 }
 
 Game.prototype.checkCollisions = function() {
-  this.enemies.forEach((enemy, index) => {
-    var rightLeft = this.player.x + this.player.width >= enemy.x;
-    var leftRight = this.player.x <= enemy.x + enemy.width;
-    var bottomTop = this.player.y + this.player.height >= enemy.y;
-    var topBottom = this.player.y <= enemy.y + enemy.height;
+  this.pelota.forEach((pelota, index) => {
+    var rightLeft = this.player.x + this.player.width >= pelota.x;
+    var leftRight = this.player.x <= pelota.x + pelota.width;
+    var bottomTop = this.player.y + this.player.height >= pelota.y;
+    var topBottom = this.player.y <= pelota.y + pelota.height;
 
     if (rightLeft && leftRight && bottomTop && topBottom) {
-      this.enemies.splice(index, 1);
+      this.pelota.splice(index, 1);
       this.player.lives --;
       if(this.player.lives === 0) {
         this.isGameOver = true;
